@@ -1,0 +1,78 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wi-Fi Signal Strength Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        #wifi-info {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h2>Wi-Fi Signal Strength Checker</h2>
+        <button onclick="measureSignalStrength()">Measure Signal Strength</button>
+        <div id="result">
+            <p id="wifi-strength">Wi-Fi Signal Strength: <span id="strength">-</span>%</p>
+            <p id="wifi-name">Wi-Fi Access Name: <span id="access-name">-</span></p>
+            <p id="signal-health">Signal Health: <span id="health">-</span></p>
+        </div>
+    </div>
+
+    <script>
+        function measureSignalStrength() {
+            // Make an AJAX request to the Flask endpoint
+            fetch('/measure_signal_strength')
+                .then(response => response.json())
+                .then(data => {
+                    // Update the displayed values
+                    document.getElementById("strength").innerText = data.wifi_strength + "";
+                    document.getElementById("access-name").innerText = data.wifi_name;
+                    document.getElementById("health").innerText = data.signal_health;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
